@@ -73,7 +73,7 @@ function viewProductsForSale() {
 
 function viewLowInventory() {
   var sql =
-    "select item_id,product_name, price, stock_quantity from products where stock_quantity<10";
+    "select item_id,product_name, price, stock_quantity from products where stock_quantity<5";
   connection.query(sql, function(err, res) {
     if (err) throw err;
     console.log("Items with inventory count lower than five.");
@@ -145,7 +145,6 @@ function addToInventory() {
         }
       );
     });
-  //   connection.end();
 }
 
 function addNewProduct() {
