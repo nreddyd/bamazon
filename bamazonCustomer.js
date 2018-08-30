@@ -51,8 +51,12 @@ function promptQuestions(length) {
     ])
     .then(function(answer) {
       var purchaseItemId = answer.purcase_item_id;
-      if (purchaseItemId > length + 1) {
-        console.log("Item does not exixt");
+      if (
+        purchaseItemId > length + 1 ||
+        isNaN(purchaseItemId) ||
+        isNaN(answer.quantity)
+      ) {
+        console.log("Invalid Input");
         connection.end();
       } else {
         connection.query(
