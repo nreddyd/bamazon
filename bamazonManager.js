@@ -99,52 +99,64 @@ function addToInventory() {
   var choicesArray = [];
   connection.query(sql, function(err, res) {
     if (err) throw err;
+    console.log("Item Id \t Product Name");
     for (var i = 0; i < res.length; i++) {
       console.log(res[i].item_id + "\t" + res[i].product_name);
       choicesArray.push(res[i].item_id + "," + res[i].product_name);
     }
-  });
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "product",
-        message: "Select the item number to add more to inventory??"
-      },
-      {
-        type: "input",
-        name: "quantity",
-        message: "How many items would like to add to invenotry??"
-      }
-    ])
-    .then(function(answer) {
-      var purchaseItemId = answer.product;
-      connection.query(
-        "select stock_quantity from products where item_id = ?",
-        [purchaseItemId],
-        function(err, res) {
-          if (err) throw err;
-          var updateQuantity =
-            res[0].stock_quantity + parseFloat(answer.quantity);
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "product",
+          message: "Select the item number to add more to inventory??"
+        },
+        {
+          type: "input",
+          name: "quantity",
+          message: "How many items would like to add to invenotry??"
+        }
+      ])
+      .then(function(answer) {
+        var purchaseItemId = answer.product;
+        if (
+          purchaseItemId > res.length + 1 ||
+          isNaN(purchaseItemId || isNaN(answer.quantity))
+        ) {
+          console.log("invalid Input");
+          if (purchaseItemId > res.length + 1 || isNaN(purchaseItemId))
+            console.log("The item id is not valid");
+          if (isNaN(answer.quantity)) console.log("Invalid quantity");
+          connection.end();
+        } else {
           connection.query(
-            "update products set ? where ?",
-            [
-              {
-                stock_quantity: updateQuantity
-              },
-              {
-                item_id: purchaseItemId
-              }
-            ],
+            "select stock_quantity from products where item_id = ?",
+            [purchaseItemId],
             function(err, res) {
               if (err) throw err;
+              var updateQuantity =
+                res[0].stock_quantity + parseFloat(answer.quantity);
+              connection.query(
+                "update products set ? where ?",
+                [
+                  {
+                    stock_quantity: updateQuantity
+                  },
+                  {
+                    item_id: purchaseItemId
+                  }
+                ],
+                function(err, res) {
+                  if (err) throw err;
+                }
+              );
+
+              connection.end();
             }
           );
-
-          connection.end();
         }
-      );
-    });
+      });
+  });
 }
 
 function addNewProduct() {
@@ -172,17 +184,23 @@ function addNewProduct() {
       }
     ])
     .then(function(answer) {
-      var newrow = {
-        product_name: answer.product_name,
-        department_name: answer.department_name,
-        price: answer.price,
-        stock_quantity: answer.stock_quantity
-      };
-      var sql = "insert into products set ?";
-      connection.query(sql, newrow, function(err, res) {
-        if (err) throw err;
-        console.log(res);
-      });
+      if (isNaN(answer.price) || isNaN(answer.stock_quantity)) {
+        console.log("Invalid Input");
+        if (isNaN(answer.price)) console.log("Invalid Price");
+        if (isNaN(answer.stock_quantity)) console.log("Invalid Quantity");
+        connection.end();
+      } else {
+        var newrow = {
+          product_name: answer.product_name,
+          department_name: answer.department_name,
+          price: answer.price,
+          stock_quantity: answer.stock_quantity
+        };
+        var sql = "insert into products set ?";
+        connection.query(sql, newrow, function(err, res) {
+          if (err) throw err;
+          connection.end();
+        });
+      }
     });
-  connection.end();
 }

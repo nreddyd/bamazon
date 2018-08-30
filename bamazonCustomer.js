@@ -41,7 +41,7 @@ function promptQuestions(length) {
       {
         type: "input",
         name: "purcase_item_id",
-        message: "Enter the Item_id of the product you would like to buy???"
+        message: "Enter the Item Id of the product you would like to buy???"
       },
       {
         type: "input",
@@ -53,10 +53,15 @@ function promptQuestions(length) {
       var purchaseItemId = answer.purcase_item_id;
       if (
         purchaseItemId > length + 1 ||
-        isNaN(purchaseItemId) ||
-        isNaN(answer.quantity)
+        isNaN(purchaseItemId || isNaN(answer.quantity))
       ) {
-        console.log("Invalid Input");
+        console.log("invalid Input");
+        if (purchaseItemId > length + 1 || isNaN(purchaseItemId)) {
+          console.log("The item id is not valid");
+        }
+        if (isNaN(answer.quantity)) {
+          console.log("Invalid quantity");
+        }
         connection.end();
       } else {
         connection.query(
