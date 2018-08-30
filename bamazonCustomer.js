@@ -30,12 +30,12 @@ function displayItemsForSale() {
             "\n"
         );
       }
-      promptQuestions();
+      promptQuestions(res.length);
     }
   );
 }
 
-function promptQuestions() {
+function promptQuestions(length) {
   inquirer
     .prompt([
       {
@@ -51,37 +51,42 @@ function promptQuestions() {
     ])
     .then(function(answer) {
       var purchaseItemId = answer.purcase_item_id;
-      connection.query(
-        "select stock_quantity, price from products where item_id = ?",
-        [purchaseItemId],
-        function(err, res) {
-          if (err) throw err;
-          if (answer.quantity > res[0].stock_quantity) {
-            console.log("Insufficient quantity!");
-          } else {
-            var updateQuantity =
-              res[0].stock_quantity - parseFloat(answer.quantity);
-            connection.query(
-              "update products set ? where ?",
-              [
-                {
-                  stock_quantity: updateQuantity
-                },
-                {
-                  item_id: purchaseItemId
+      if (purchaseItemId > length + 1) {
+        console.log("Item does not exixt");
+        connection.end();
+      } else {
+        connection.query(
+          "select stock_quantity, price from products where item_id = ?",
+          [purchaseItemId],
+          function(err, res) {
+            if (err) throw err;
+            if (answer.quantity > res[0].stock_quantity) {
+              console.log("Insufficient quantity!");
+            } else {
+              var updateQuantity =
+                res[0].stock_quantity - parseFloat(answer.quantity);
+              connection.query(
+                "update products set ? where ?",
+                [
+                  {
+                    stock_quantity: updateQuantity
+                  },
+                  {
+                    item_id: purchaseItemId
+                  }
+                ],
+                function(err, res) {
+                  if (err) throw err;
                 }
-              ],
-              function(err, res) {
-                if (err) throw err;
-              }
-            );
-            var totalCost = res[0].price * answer.quantity;
-            console.log(
-              "The total price of the purchase : " + totalCost.toFixed(2)
-            );
+              );
+              var totalCost = res[0].price * answer.quantity;
+              console.log(
+                "The total price of the purchase : " + totalCost.toFixed(2)
+              );
+            }
+            connection.end();
           }
-          connection.end();
-        }
-      );
+        );
+      }
     });
 }

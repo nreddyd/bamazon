@@ -16,7 +16,7 @@ insert into products (item_id, product_name, department_name, price, stock_quant
 values (01, "iphone8", "electronics", 899.00, 5),
 (02, "dot a art", "arts and crafts", 38.00, 100),
 (03, "handbag", "women", 50.00, 6),
-(04, "solar lights ooutdoor", "home improvement", 39.99, 150),
+(04, "solar lights outdoor", "home improvement", 39.99, 150),
 (05, "echo dot", "bmazon devices", 49.99, 65),
 (06, "Wireless Security Camera Indoor", "Electronics", 42.49, 35),
 (07, "The Alchemist", "Books", 12.79, 500),
