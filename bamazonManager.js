@@ -25,7 +25,8 @@ function displayMenu() {
           "a: View Products for Sale",
           "b: View Low Inventory",
           "c: Add to Inventory",
-          "d: Add New Product"
+          "d: Add New Product",
+          "e: Exit"
         ]
       }
     ])
@@ -42,6 +43,9 @@ function displayMenu() {
           break;
         case "d: Add New Product":
           addNewProduct();
+          break;
+        case "e: Exit":
+          process.exit();
           break;
       }
     });
@@ -67,8 +71,8 @@ function viewProductsForSale() {
           "\n"
       );
     }
+    displayMenu();
   });
-  connection.end();
 }
 
 function viewLowInventory() {
@@ -90,8 +94,8 @@ function viewLowInventory() {
           "\n"
       );
     }
+    displayMenu();
   });
-  connection.end();
 }
 
 function addToInventory() {
@@ -127,7 +131,7 @@ function addToInventory() {
           if (purchaseItemId > res.length + 1 || isNaN(purchaseItemId))
             console.log("The item id is not valid");
           if (isNaN(answer.quantity)) console.log("Invalid quantity");
-          connection.end();
+          displayMenu();
         } else {
           connection.query(
             "select stock_quantity from products where item_id = ?",
@@ -148,10 +152,9 @@ function addToInventory() {
                 ],
                 function(err, res) {
                   if (err) throw err;
+                  displayMenu();
                 }
               );
-
-              connection.end();
             }
           );
         }
@@ -188,7 +191,7 @@ function addNewProduct() {
         console.log("Invalid Input");
         if (isNaN(answer.price)) console.log("Invalid Price");
         if (isNaN(answer.stock_quantity)) console.log("Invalid Quantity");
-        connection.end();
+        displayMenu();
       } else {
         var newrow = {
           product_name: answer.product_name,
@@ -199,7 +202,7 @@ function addNewProduct() {
         var sql = "insert into products set ?";
         connection.query(sql, newrow, function(err, res) {
           if (err) throw err;
-          connection.end();
+          displayMenu();
         });
       }
     });
