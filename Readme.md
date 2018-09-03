@@ -24,7 +24,7 @@ The node app bamazonManager.js will allow the manager to
 
 ![screen shot 2018-09-03 at 3 11 56 pm](https://user-images.githubusercontent.com/37693981/44999546-1c4eab00-af8c-11e8-8899-635880cef10c.png)
 
-![screen shot 2018-09-03 at 3 11 56 pm](https://user-images.githubusercontent.com/37693981/44999548-1e186e80-af8c-11e8-9b33-ba8bb8e3a685.png)
+![screen shot 2018-09-03 at 3 12 13 pm](https://user-images.githubusercontent.com/37693981/44999587-7e0f1500-af8c-11e8-8f11-f2cee0ac323e.png)
 
 ![screen shot 2018-09-03 at 3 12 39 pm](https://user-images.githubusercontent.com/37693981/44999549-207ac880-af8c-11e8-8d89-2ab6547c573e.png)
 
