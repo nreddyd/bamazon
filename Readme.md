@@ -39,6 +39,7 @@ The node app bamazonManager.js will allow the manager to
 Javascript
 NodeJS
 MYSQL
+
 Node Packages :
 
 - mysql
