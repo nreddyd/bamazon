@@ -1,6 +1,4 @@
-#Bamazon
-
-still working on updating the screenshots.
+## Bamazon
 
 Bamazon is Amazon-like storefront CLI created using javascript, node and MySQL.
 
@@ -34,10 +32,10 @@ The node app bamazonManager.js will allow the manager to
 
 ![screen shot 2018-09-03 at 3 14 22 pm](https://user-images.githubusercontent.com/37693981/44999555-2a9cc700-af8c-11e8-8cdd-e72330e278ea.png)
 
-#Technologies Used
+## Technologies Used
 
-Javascript
-NodeJS
+Javascript,
+NodeJS,
 MYSQL
 
 Node Packages :
